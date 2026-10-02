@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Book</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
+{% block title %}Add Book · Library{% endblock %}
 
-<body>
+{% block content %}
 
 <h1>Add New Book</h1>
 
-<form method="POST">
-    <label>Title:</label><br>
-    <input type="text" name="title" required><br><br>
+<form method="POST" class="form-card">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="e.g. Clean Code" required>
+    </div>
 
-    <label>Author:</label><br>
-    <input type="text" name="author" required><br><br>
+    <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" placeholder="e.g. Robert C. Martin" required>
+    </div>
 
-    <label>Genre:</label><br>
-    <input type="text" name="genre" required><br><br>
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <input type="text" id="genre" name="genre" placeholder="e.g. Software Engineering" required>
+    </div>
 
-    <button type="submit">Add Book</button>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Add Book</button>
+        <a href="/" class="btn btn-ghost">Cancel</a>
+    </div>
 </form>
 
-<br>
-<a href="/">⬅ Back to Home</a>
-
-</body>
-</html>
+{% endblock %}

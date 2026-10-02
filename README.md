@@ -1,152 +1,122 @@
 # Library Management System
 
-A simple web-based Library Management System built with **Python Flask and MySQL**. The application provides basic book management functionality through a clean browser-based interface.
+A simple web-based Library Management System built with **Python (Flask)** and **MySQL**. It provides complete book-management (CRUD) functionality through a clean browser interface.
 
-## Features
+## ✨ Features
 
-* Add new books
-* View all books
-* Search and manage book records
-* Edit existing books
-* Delete books
-* Store book information in MySQL
-* Basic form validation
-* Clean and responsive web interface
-* Persistent database storage
+- View all books in a clean table
+- Search books by title, author, or genre
+- Add new books
+- Edit existing books
+- Delete books (with confirmation)
+- Success / error feedback messages after every action
+- Responsive layout that works on mobile and desktop
+- MySQL persistence — the `books` table is created automatically on first run
+- Database credentials via environment variables (no secrets in code)
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-* **Python 3**
-* **Flask**
-* **MySQL**
-* **HTML5**
-* **CSS3**
-* **mysql-connector-python**
+| Layer | Technology |
+| ----- | ---------- |
+| Backend | Python 3, Flask |
+| Database | MySQL (mysql-connector-python) |
+| Frontend | HTML5, CSS3, Jinja2 templates |
+| Production server | Gunicorn (see Deployment) |
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 Library-Management-System/
-│
-├── app.py
-├── requirements.txt
-│
+├── app.py               # Flask application (routes + DB logic)
+├── schema.sql           # Optional SQL script (app auto-creates the table too)
+├── requirements.txt     # Python dependencies
+├── .env.example         # Example environment configuration
+├── Procfile             # Start command for PaaS deployment
 ├── static/
-│   └── style.css
-│
+│   └── style.css        # Stylesheet
 └── templates/
-    ├── index.html
-    ├── add_book.html
-    └── edit_book.html
+    ├── base.html        # Layout: navbar, alerts, footer
+    ├── index.html       # Book list + search
+    ├── add_book.html    # Add book form
+    └── edit_book.html   # Edit book form
 ```
 
-## Database
+## ⚙️ Setup & Installation
 
-The application uses a MySQL database named:
+### 1. Prerequisites
 
-```text
-library_db
-```
+- Python 3.9+
+- MySQL Server running locally
 
-The main table used by the current application is:
-
-```text
-books
-```
-
-The book records contain information such as:
-
-* Book ID
-* Title
-* Author
-* Genre
-
-## Requirements
-
-Make sure the following are installed:
-
-* Python 3
-* MySQL Server
-* pip
-
-Install the Python dependencies:
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Database Setup
-
-1. Start your MySQL server.
-2. Create the database:
+### 3. Create the database
 
 ```sql
 CREATE DATABASE library_db;
 ```
 
-3. Make sure the MySQL username and password configured for the application are correct.
-4. Ensure the `books` table exists with the columns expected by `app.py`.
+(The `books` table is created automatically when the app starts. Alternatively you can run the provided `schema.sql`.)
 
-## Running the Application
+### 4. Configure environment variables
 
-Open a terminal in the project directory:
+The app reads its database credentials from environment variables:
+
+| Variable | Description | Default |
+| -------- | ----------- | ------- |
+| `DB_HOST` | MySQL host | `localhost` |
+| `DB_USER` | MySQL user | `root` |
+| `DB_PASSWORD` | MySQL password | *(empty)* |
+| `DB_NAME` | Database name | `library_db` |
+| `SECRET_KEY` | Flask session key | dev value |
+
+See `.env.example` for a template. **Never commit real passwords to GitHub.**
+
+### 5. Run the app
 
 ```bash
 python app.py
 ```
 
-The Flask development server will start at:
+Then open http://127.0.0.1:5000 in your browser.
 
-```text
-http://127.0.0.1:5000
-```
+## 📖 Usage
 
-Open that address in your browser.
+- **View books** — the home page lists every book.
+- **Search** — use the search bar to filter by title, author, or genre.
+- **Add a book** — click **+ Add Book**, fill in the form, and submit.
+- **Edit a book** — click **Edit** on a row, change the details, and save.
+- **Delete a book** — click **Delete** and confirm.
 
-## Basic Usage
+## 📸 Screenshots
 
-### Add a Book
+> Add screenshots here after running the app, e.g.:
+>
+> - `screenshots/home.png` — book list with search
+> - `screenshots/add.png` — add book form
 
-Open the **Add Book** page and enter the book title, author, and genre.
+## 🚀 Deployment
 
-### View Books
+The app is deployment-ready: it uses environment variables for configuration and ships a `Procfile` for Gunicorn. The simplest hosting route for a **Flask + MySQL** project is a platform that offers both in one place, e.g. **Railway**:
 
-The home page displays the books stored in the database.
+1. Push this repository to GitHub (done).
+2. On Railway, create a new project → **Deploy from GitHub repo**.
+3. Add a **MySQL** service to the same project.
+4. Set the environment variables (`DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`) using the credentials Railway provides for the MySQL service.
+5. Deploy — Railway installs `requirements.txt` and starts the app with the `Procfile`.
 
-### Edit a Book
+(Render + a hosted MySQL provider such as Aiven works the same way.)
 
-Select a book and use the **Edit** option to update its information.
+## 🔮 Future Improvements
 
-### Delete a Book
+- Member management and book issue/return tracking
+- Pagination for large libraries
+- User authentication
 
-Use the **Delete** option to remove a book from the database.
+## 👤 Author
 
-
-Example:
-
-```text
-![Home Page](screenshots/home.png)
-```
-
-## Future Improvements
-
-Possible future improvements include:
-
-* Member management
-* Book issue and return tracking
-* Improved search and filtering
-* User authentication
-* Better database configuration through environment variables
-* Deployment to a cloud platform
-
-## Deployment
-
-The application can be deployed using a Flask-compatible hosting platform together with a hosted MySQL database.
-
-For local development, the application is intended to run using Flask's development server.
-
-## Author
-
-**Mohammed Fasiuddin**
-
-GitHub: [fasi-dev](https://github.com/fasi-dev)
+**Mohammed Fasiuddin** — [github.com/fasi-dev](https://github.com/fasi-dev)

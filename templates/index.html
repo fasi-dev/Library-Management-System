@@ -1,41 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Library</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
+{% block title %}Books · Library{% endblock %}
 
-<body>
+{% block content %}
 
-<h1>📚 Books in Library</h1>
+<div class="page-header">
+    <div>
+        <h1>Books</h1>
+        <p class="muted">{{ books|length }} book{{ 's' if books|length != 1 }} in the library</p>
+    </div>
+    <form method="GET" action="/" class="search-form">
+        <input type="text" name="q" placeholder="Search title, author or genre…" value="{{ search }}">
+        <button type="submit" class="btn btn-secondary">Search</button>
+        {% if search %}<a href="/" class="btn btn-ghost">Clear</a>{% endif %}
+    </form>
+</div>
 
-<!-- ✅ THIS IS THE IMPORTANT BUTTON -->
-<a href="/add">➕ Add New Book</a>
+{% if books %}
+<div class="table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th class="actions-col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td class="muted">{{ book[0] }}</td>
+                <td><strong>{{ book[1] }}</strong></td>
+                <td>{{ book[2] }}</td>
+                <td><span class="genre-tag">{{ book[3] }}</span></td>
+                <td class="actions">
+                    <a href="/edit/{{ book[0] }}" class="btn btn-small btn-secondary">Edit</a>
+                    <a href="/delete/{{ book[0] }}" class="btn btn-small btn-danger"
+                       onclick="return confirm('Delete &quot;{{ book[1] }}&quot;? This cannot be undone.')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    {% if search %}
+        <p>No books found for "{{ search }}".</p>
+        <a href="/" class="btn btn-secondary">Show all books</a>
+    {% else %}
+        <p>No books in the library yet.</p>
+        <a href="/add" class="btn btn-primary">Add your first book</a>
+    {% endif %}
+</div>
+{% endif %}
 
-<br><br>
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Genre</th>
-        <th>Action</th>
-    </tr>
-
-    {% for book in books %}
-    <tr>
-        <td>{{ book[0] }}</td>
-        <td>{{ book[1] }}</td>
-        <td>{{ book[2] }}</td>
-        <td>{{ book[3] }}</td>
-    </tr>
-<td>
-    <a href="/edit/{{ book[0] }}">Edit</a> |
-    <a href="/delete/{{ book[0] }}">Delete</a>
-</td>
-    {% endfor %}
-</table>
-
-</body>
-</html>
+{% endblock %}
